@@ -1,0 +1,10 @@
+{
+  "name": "eternia",
+  "version": "1.0",
+  "description": "Timers Bot for Aura Kingom",
+  "main": "eternia.js",
+  "author": "Vexuas",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  }
+}
