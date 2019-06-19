@@ -4,20 +4,24 @@ const { prefix, token } = require('./config.json');
 
 const eternia = new Discord.Client();
 eternia.commands = new Discord.Collection();
+
 /**
- * Reads content of commands directory and returns an array of filtered .js files
- * For each file, adds them as a command in eternia's collection
+ * Reads content of commands directory and returns an array of folders
+ * For each folder, reads content inside it and filters files ending with .js
+ * Then for each file, adds them as a command in eternia's collection as key:value
+ * This right here is a thing of beauty
  */
+const commandFolder = fs.readdirSync('./commands/');
 
-const commandFiles = fs
-  .readdirSync('./commands/.')
-  .filter(file => file.endsWith('.js'));
-
-for (const file of commandFiles) {
-  const command = require(`./commands/./${file}`);
-  eternia.commands.set(command.name, command);
+for (const folder of commandFolder) {
+  const commandFiles = fs
+    .readdirSync(`./commands/${folder}`)
+    .filter(file => file.endsWith('.js'));
+  for (const file of commandFiles) {
+    const command = require(`./commands/${folder}/${file}`);
+    eternia.commands.set(command.name, command);
+  }
 }
-console.log(eternia.commands);
 
 eternia.once('ready', () => {
   console.log('Lets go! (˶◕‿◕˶✿)');
